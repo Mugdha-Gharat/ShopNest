@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ product['name'] }} - ShopNest{% endblock %}
+{% block content %}
+<div class="detail card">
+  <div class="detail-image">{{ product['emoji'] }}</div>
+  <div class="detail-content">
+    <span class="category">{{ product['category'] }}</span>
+    <h1>{{ product['name'] }}</h1>
+    <p>{{ product['description'] }}</p>
+    <h2>₹{{ "%.2f"|format(product['price']) }}</h2>
+    <p><strong>Available stock:</strong> {{ product['stock'] }}</p>
+    <form method="post" action="{{ url_for('add_to_cart', product_id=product['id']) }}" class="quantity-form">
+      <input type="number" name="quantity" min="1" max="{{ product['stock'] }}" value="1">
+      <button class="btn btn-primary" {% if product['stock'] == 0 %}disabled{% endif %}>Add to Cart</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

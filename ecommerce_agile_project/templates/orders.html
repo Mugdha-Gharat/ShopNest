@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My Orders - ShopNest{% endblock %}
+{% block content %}
+<h1>My Orders</h1>
+{% if orders %}
+<div class="table-wrap card">
+<table>
+<thead><tr><th>Order</th><th>Date</th><th>Total</th><th>Payment</th><th>Status</th></tr></thead>
+<tbody>
+{% for o in orders %}
+<tr>
+<td>#{{ o['id'] }}</td>
+<td>{{ o['created_at'] }}</td>
+<td>₹{{ "%.2f"|format(o['total']) }}</td>
+<td>{{ o['payment_method'] }}</td>
+<td><span class="status">{{ o['status'] }}</span></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+{% else %}
+<div class="empty card"><h2>No orders yet</h2><a class="btn btn-primary" href="{{ url_for('index') }}">Start Shopping</a></div>
+{% endif %}
+{% endblock %}

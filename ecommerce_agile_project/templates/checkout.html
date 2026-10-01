@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Checkout - ShopNest{% endblock %}
+{% block content %}
+<h1>Checkout</h1>
+<div class="checkout-grid">
+  <form class="card form-card" method="post">
+    <h2>Delivery & Payment</h2>
+    <label>Delivery Address</label>
+    <textarea name="address" rows="5" required placeholder="House no., street, city, PIN code"></textarea>
+    <label>Payment Method</label>
+    <select name="payment_method" required>
+      <option value="UPI">UPI (Demo)</option>
+      <option value="Card">Credit/Debit Card (Demo)</option>
+      <option value="COD">Cash on Delivery</option>
+    </select>
+    <p class="notice">Payment is simulated for this college project; no real transaction is made.</p>
+    <button class="btn btn-primary full">Place Order</button>
+  </form>
+  <aside class="summary card">
+    <h2>Order Summary</h2>
+    {% for item in items %}
+      <div><span>{{ item['product']['name'] }} × {{ item['quantity'] }}</span><strong>₹{{ "%.2f"|format(item['subtotal']) }}</strong></div>
+    {% endfor %}
+    <hr>
+    <div class="total"><span>Total</span><strong>₹{{ "%.2f"|format(total) }}</strong></div>
+  </aside>
+</div>
+{% endblock %}

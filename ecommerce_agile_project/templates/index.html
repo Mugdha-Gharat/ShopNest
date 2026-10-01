@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}ShopNest - Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">ONLINE SHOPPING MADE SIMPLE</p>
+    <h1>Find products you love.</h1>
+    <p>Browse products, add them to your cart and place an order in a few clicks.</p>
+    <a href="#products" class="btn btn-primary">Shop Now</a>
+  </div>
+  <div class="hero-icon">🛒</div>
+</section>
+
+<form class="filters" method="get">
+  <input type="text" name="search" placeholder="Search products..." value="{{ search }}">
+  <select name="category">
+    <option value="">All Categories</option>
+    {% for c in categories %}
+      <option value="{{ c['category'] }}" {% if selected_category == c['category'] %}selected{% endif %}>{{ c['category'] }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-dark" type="submit">Search</button>
+</form>
+
+<section id="products">
+  <div class="section-head">
+    <h2>Featured Products</h2>
+    <span>{{ products|length }} products</span>
+  </div>
+  <div class="product-grid">
+    {% for p in products %}
+    <article class="card product-card">
+      <a class="product-image" href="{{ url_for('product', product_id=p['id']) }}">{{ p['emoji'] }}</a>
+      <div class="card-body">
+        <span class="category">{{ p['category'] }}</span>
+        <h3>{{ p['name'] }}</h3>
+        <p>{{ p['description'] }}</p>
+        <div class="price-row">
+          <strong>₹{{ "%.2f"|format(p['price']) }}</strong>
+          <span class="stock">{{ p['stock'] }} left</span>
+        </div>
+        <form method="post" action="{{ url_for('add_to_cart', product_id=p['id']) }}">
+          <button class="btn btn-primary full" {% if p['stock'] == 0 %}disabled{% endif %}>
+            {% if p['stock'] == 0 %}Out of Stock{% else %}Add to Cart{% endif %}
+          </button>
+        </form>
+      </div>
+    </article>
+    {% else %}
+      <div class="empty"><h3>No products found</h3><p>Try another search or category.</p></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

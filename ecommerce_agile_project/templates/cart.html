@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Cart - ShopNest{% endblock %}
+{% block content %}
+<h1>Your Shopping Cart</h1>
+{% if items %}
+<form method="post" action="{{ url_for('update_cart') }}">
+  <div class="cart-layout">
+    <div>
+      {% for item in items %}
+      <div class="cart-item card">
+        <div class="cart-icon">{{ item['product']['emoji'] }}</div>
+        <div class="cart-info">
+          <h3>{{ item['product']['name'] }}</h3>
+          <p>₹{{ "%.2f"|format(item['product']['price']) }} each</p>
+        </div>
+        <input class="qty" type="number" name="qty_{{ item['product']['id'] }}" min="0" max="{{ item['product']['stock'] }}" value="{{ item['quantity'] }}">
+        <strong>₹{{ "%.2f"|format(item['subtotal']) }}</strong>
+        <form></form>
+        <button type="submit" formaction="{{ url_for('remove_from_cart', product_id=item['product']['id']) }}" formmethod="post" class="link-danger">Remove</button>
+      </div>
+      {% endfor %}
+      <button class="btn btn-outline" type="submit">Update Cart</button>
+    </div>
+    <aside class="summary card">
+      <h2>Order Summary</h2>
+      <div><span>Subtotal</span><strong>₹{{ "%.2f"|format(total) }}</strong></div>
+      <div><span>Delivery</span><strong>FREE</strong></div>
+      <hr>
+      <div class="total"><span>Total</span><strong>₹{{ "%.2f"|format(total) }}</strong></div>
+      <a class="btn btn-primary full" href="{{ url_for('checkout') }}">Proceed to Checkout</a>
+    </aside>
+  </div>
+</form>
+{% else %}
+<div class="empty card">
+  <div class="big-icon">🛒</div>
+  <h2>Your cart is empty</h2>
+  <p>Add products to your cart to see them here.</p>
+  <a class="btn btn-primary" href="{{ url_for('index') }}">Browse Products</a>
+</div>
+{% endif %}
+{% endblock %}

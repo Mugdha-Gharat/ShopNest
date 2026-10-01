@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Order Placed - ShopNest{% endblock %}
+{% block content %}
+<div class="success-box card">
+  <div class="big-icon">✅</div>
+  <h1>Order Placed Successfully!</h1>
+  <p>Your order <strong>#{{ order['id'] }}</strong> has been placed.</p>
+  <p>Status: <span class="status">{{ order['status'] }}</span></p>
+  <p>Total: <strong>₹{{ "%.2f"|format(order['total']) }}</strong></p>
+  <a class="btn btn-primary" href="{{ url_for('orders') }}">View My Orders</a>
+  <a class="btn btn-outline" href="{{ url_for('index') }}">Continue Shopping</a>
+</div>
+{% endblock %}

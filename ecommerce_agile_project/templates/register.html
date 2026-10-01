@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Register - ShopNest{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <div class="auth-card card">
+    <h1>Create Account</h1>
+    <p>Register as a customer.</p>
+    <form method="post">
+      <label>Full Name</label>
+      <input type="text" name="name" required>
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <label>Password</label>
+      <input type="password" name="password" minlength="6" required>
+      <button class="btn btn-primary full">Create Account</button>
+    </form>
+    <p class="muted">Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+  </div>
+</div>
+{% endblock %}
